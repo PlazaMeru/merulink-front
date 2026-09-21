@@ -69,12 +69,12 @@ const ScheduleGrid = forwardRef(({
   const isOneShift = cleanedShifts.length === 1;
   const titleFortnight = dayjs(scheduleData?.start).format('MMMM YYYY');
 
-  const daysMap = useMemo(() => {
-    return fortnightDays.reduce((acc, curr) => {
-      acc[curr.date] = curr;
-      return acc;
-    }, {});
-  }, [fortnightDays]);
+  // const daysMap = useMemo(() => {
+  //   return fortnightDays.reduce((acc, curr) => {
+  //     acc[curr.date] = curr;
+  //     return acc;
+  //   }, {});
+  // }, [fortnightDays]);
 
   useEffect(() => {
     setBrushShift(null);

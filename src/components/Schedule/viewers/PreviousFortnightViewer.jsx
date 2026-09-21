@@ -5,13 +5,10 @@ import { Rnd } from 'react-rnd';
 import dayjs from 'dayjs';
 
 import { useSchedules } from '../../../context/ScheduleContext';
-import { useScheduleValidation } from '../../../hooks/useScheduleValidation';
-import ShiftLegend from '../../Shift/ShiftLegend';
 
 import { getFortnightDays } from '../../../utils/Schedule/schedule-utils';
 import { truncateText } from '../../../utils/text-utils';
 
-import LabelFieldForm from '../../Shared/LabelFieldForm';
 import LiveAlerts from '../../Shared/LiveAlerts';
 import SpanText from '../../Shared/SpanText';
 import DragBar from '../../Shared/DragBar';
@@ -40,6 +37,7 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
   const viewMode = true;
   const startDate = preFortnightParams.start;
   const endDate = preFortnightParams.end;
+  const groupedEmployees = previousData?.employees;
   
   const CustomTooltip = (params) => {
     if (!params.value) return null;
@@ -50,13 +48,6 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
       />
     );
   };
-
-  const daysMap = useMemo(() => {
-    return previousFortnightDays.reduce((acc, curr) => {
-      acc[curr.date] = curr;
-      return acc;
-    }, {});
-  }, [previousFortnightDays]);
 
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -72,11 +63,25 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
   }, []); 
     
   const rowData = useMemo(() => {
-    if (!previousData?.employees) return [];
+    if (!groupedEmployees) return [];
     
     const flatRows = [];
-    Object.keys(previousData?.employees).forEach((subDeptName) => {
-      previousData?.employees[subDeptName].forEach((employee) => {
+    Object.keys(groupedEmployees).forEach((subDeptName) => {
+
+      if (groupedEmployees[subDeptName].length === 0) return; // Evita agregar subdepartamentos sin empleados
+      
+      if (subDeptName !== '') {
+        // Fila separadora (vacía) con el nombre del subdepartamento
+        flatRows.push({
+          isSubDepartmentHeader: true,
+          subDepartmentName: subDeptName,
+          fullName: subDeptName,
+          id: `subdept-${subDeptName}`,
+          dates: {},
+        });
+      }
+
+      groupedEmployees[subDeptName].forEach((employee) => {
         flatRows.push({
           ...employee,
           fullName: `${employee.firstName} ${employee.lastName || ''}`.trim()
@@ -85,7 +90,7 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
     });
     
     return flatRows;
-  }, [previousData]);
+  }, [groupedEmployees]);
 
   // useEffect(() => {
   //   if (rowData.length > 0) {
@@ -101,8 +106,9 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
         field: 'fullName', 
         pinned: 'left', 
         width: 120,
-        cellClass: 'text-xs font-semibold',
+        cellClass: (params) => params.data?.isSubDepartmentHeader ? 'subdept-header-name' : 'text-xs font-semibold',
         cellRenderer: (params) => {
+          if (params.data?.isSubDepartmentHeader) return params.data.subDepartmentName;
           const tags = [];
           if (params.data.permission) tags.push('🩺 Permiso');
           if (params.data.vacation) tags.push('🌴 Vacaciones');
@@ -135,16 +141,20 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
         ),
 
         valueGetter: (params) => {
+          if (params.data.isSubDepartmentHeader) return null;
           return params.data.dates?.[day.date]?.shift?.id ?? 'S-0';
         },
 
         valueFormatter: (params) => {
+          if (params.data.isSubDepartmentHeader) return '';
           const shiftObj = params.data.dates?.[day.date]?.shift;
           return shiftObj?.letterShift || 'L'; 
         },
 
         cellStyle: (params) => {
           const baseStyle = { textAlign: 'center' };
+          // Fila separadora de subdepartamento: celdas vacías sin contenido
+          if (params.data.isSubDepartmentHeader) return { ...baseStyle };
           const dayData = params.data.dates?.[day.date];
           const shiftObj = dayData?.shift;
           const eventsList = dayData?.events || [];
@@ -182,7 +192,11 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
         resizable: true,
         sortable: false,
         suppressMovable: true,
-        editable: (params) => params.value !== 'S-1' && params.value !== 'S-2' && params.value !== 'S-3',
+        // Bloquea edición si es baja/vacaciones/permiso o fila separadora
+        editable: (params) => {
+          if (params.data.isSubDepartmentHeader) return false;
+          return params.value !== 'S-1' && params.value !== 'S-2' && params.value !== 'S-3';
+        },
         cellClassRules: {
           'cursor-not-allowed opacity-60 select-none text-gray-400 bg-gray-100': (params) => params.value === 'S-1' || params.value === 'S-2' || params.value === 'S-3' ,
         },
@@ -198,7 +212,7 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
     });
 
     return [...baseCols, ...dayCols];
-  }, [previousFortnightDays]);
+  }, [previousFortnightDays, rowData]);
 
   const defaultColDef = useMemo(() => ({
     sortable: true,
@@ -313,6 +327,11 @@ const PreviousFortnightViewer = ({ isOpen, onClose, preFortnightParams  }) => {
                     columnDefs={columnDefs}
                     readOnlyEdit={viewMode} 
                     suppressCellFocus={viewMode}
+                    rowClassRules={{
+                      'subdept-header-row': (params) => params.data?.isSubDepartmentHeader,
+                    }}
+                    // Altura para fila separadora;
+                    getRowHeight={(params) => (params.data?.isSubDepartmentHeader ? 30 : undefined)}
                     defaultColDef={defaultColDef}
                     animateRows={true}
                     theme={myTheme}
