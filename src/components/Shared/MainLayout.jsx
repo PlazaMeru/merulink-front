@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import TopBar from '../Menu/TopBar';
 import SideBar from '../Menu/SideBar';
@@ -19,6 +19,8 @@ import InactivityWarning from './InactivityWarning';
  */
 export default function MainLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Cambiar esta clave fuerza el remontaje de la vista activa ("recargar" sin F5)
+  const [viewRefreshKey, setViewRefreshKey] = useState(0);
   const { logoutDueToInactivity, logoutContext } = useAuth();
   const location = useLocation();
 
@@ -42,9 +44,14 @@ export default function MainLayout({ children }) {
     logoutContext();
   };
 
+  // Fuerza el remontaje de la ruta activa equivale a "recargar" la vista, sin F5.
+  const handleRefreshView = useCallback(() => {
+    setViewRefreshKey((key) => key + 1);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#1e2022] flex flex-col">
-      <TopBar />
+      <TopBar onRefreshView={handleRefreshView} />
 
       <div className="flex flex-1">
         {/* Mobile sidebar toggle */}
@@ -55,10 +62,11 @@ export default function MainLayout({ children }) {
           MENÚ ☰
         </button>
 
-        <SideBar isSidebarOpen={isSidebarOpen} />
+        <SideBar isSidebarOpen={isSidebarOpen} onRefreshView={handleRefreshView} />
 
         <main className="workspace flex-1">
-          {children || <Outlet />}
+          {/* La key remonta la vista cuando se hace clic en la opción de menú ya activa */}
+          {children || <Outlet key={viewRefreshKey} />}
         </main>
       </div>
 

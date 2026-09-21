@@ -9,7 +9,7 @@ import { BellIcon } from '@heroicons/react/24/solid';
 import NotificationPanel from "../Shared/NotificationPanel";
 import NameApp from "../Shared/NameApp";
 
-export default function TopBar() {
+export default function TopBar({ onRefreshView }) {
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,6 +24,16 @@ export default function TopBar() {
   // Derive active menu from the current URL
   const context = findMenuContextByPath(location.pathname, menu);
   const activeMenu = context?.activeMenu || null;
+
+  // Clic en el módulo que YA está activo: vuelve al inicio del módulo y remonta la vista.
+  const handleMenuClick = (item) => {
+    if (activeMenu === item.id) {
+      if (item.path && location.pathname !== item.path) navigate(item.path);
+      onRefreshView?.();
+      return;
+    }
+    navigate(item.path || '/');
+  };
 
   const handleLogout = async (e) => {
 
@@ -47,7 +57,7 @@ export default function TopBar() {
           {filteredTopItems.map(item => (
             <button
               key={item.id}
-              onClick={() => navigate(item.path || '/')}
+              onClick={() => handleMenuClick(item)}
               className={activeMenu === item.id ? 'active' : ''}
             >
               {item.label}

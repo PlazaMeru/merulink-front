@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { useLocation, NavLink, Link } from 'react-router-dom';
+import { useLocation, NavLink, Link, useNavigate } from 'react-router-dom';
 import { Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -43,6 +43,7 @@ function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, c
               <div style={{ width: 20 }} />
               <NavLink
                 to={node.path || '#'}
+                onClick={(e) => onItemClick?.(e, node)}
                 className={({ isActive: navActive }) => `submenu-btn ${navActive ? 'active' : ''}`}
                 style={({ isActive: navActive }) => ({
                   color: (isActive || navActive) ? "#fff" : "inherit",
@@ -66,9 +67,10 @@ function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, c
   });
 }
 
-export default function SideBar({ isSidebarOpen }) {
+export default function SideBar({ isSidebarOpen, onRefreshView }) {
   const location = useLocation();
   const pathname = location.pathname;
+  const navigate = useNavigate();
   const { menu } = useAuth(); // Menú del usuario (ya filtrado por permisos en el backend)
   const context = findMenuContextByPath(pathname, menu);
 
@@ -120,9 +122,18 @@ export default function SideBar({ isSidebarOpen }) {
     return null;
   }, []);
 
+  // Clic en un item del sidebar que ya corresponde a la ruta actual (o a una ruta padre
+  // de la actual): se remonta la vista para volver a pedir la data al backend.
+  const handleItemClick = useCallback((e, node) => {
+    const target = node.path;
+    if (!target || target === '#') return;
+
+    const isCurrentBranch = pathname === target || pathname.startsWith(`${target}/`);
+    if (isCurrentBranch) onRefreshView?.();
+  }, [pathname, onRefreshView]);
+
   // Show sidebar when the active module has children to show
   const shouldShow = activeMenu && branch.length > 0 && activeMenu !== 'IA';
-
   if (!shouldShow) {
     return <aside className="sidebar hidden" />;
   }
@@ -182,7 +193,7 @@ export default function SideBar({ isSidebarOpen }) {
       </div>
 
       <div>
-        {renderNode(branch, [], null, activePath, toggleCollapse, collapsed)}
+        {renderNode(branch, [], handleItemClick, activePath, toggleCollapse, collapsed)}
       </div>
     </aside>
   );
