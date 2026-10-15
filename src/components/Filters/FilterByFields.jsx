@@ -77,12 +77,6 @@ export default function FilterByFields({
           {showFilterStatus && (
             <div className="flex gap-2">
               <button
-                onClick={() => onFilterStatus('all')}
-                className={`skip-style-btn status-btn text-xs px-3 py-1.5 ${filterStatus === 'all' ? 'status-btn--all' : 'status-btn--neutral'}`}
-              >
-                Todos
-              </button>
-              <button
                 onClick={() => onFilterStatus(active)}
                 className={`skip-style-btn status-btn text-xs px-3 py-1.5 ${filterStatus === active ? 'status-btn--active' : 'status-btn--neutral'}`}
               >
@@ -93,6 +87,12 @@ export default function FilterByFields({
                 className={`skip-style-btn status-btn text-xs px-3 py-1.5 ${filterStatus === inactive ? 'status-btn--inactive' : 'status-btn--neutral'}`}
               >
                 <span className="capitalize">{inactive}s</span>
+              </button>
+              <button
+                onClick={() => onFilterStatus('all')}
+                className={`skip-style-btn status-btn text-xs px-3 py-1.5 ${filterStatus === 'all' ? 'status-btn--all' : 'status-btn--neutral'}`}
+              >
+                Todos
               </button>
             </div>
           )}

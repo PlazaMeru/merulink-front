@@ -32,8 +32,9 @@ export default function EmployeeList() {
   const restored = restoredRef.current;
 
   const [searchValue, setSearchValue] = useState(restored?.searchValue ?? '');
-  const [filterStatus, setFilterStatus] = useState(restored?.filterStatus ?? 'all');
+  const [filterStatus, setFilterStatus] = useState(restored?.filterStatus ?? 'activo');
 
+  // 'activo' es el filtro por defecto
   const isFiltering = Boolean(searchValue.trim()) || filterStatus !== 'all';
 
   // Persistir búsqueda/filtro (la posición de scroll la recuerda useLoadMore "remember")
