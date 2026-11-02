@@ -8,6 +8,12 @@ import { buildAllPaths } from "../../utils/sidebar-menu-utils";
 
 import HasPermission from "../Shared/HasPermission";
 
+// El menú viene del backend como JSON; el ícono llega como SVG (string).
+function renderMenuIcon(icon) {
+  if (!icon) return null;
+  return <span className="menu-icon" dangerouslySetInnerHTML={{ __html: icon }} />;
+}
+
 function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, collapsed) {
   return (nodes || []).map((node) => {
     const hasChildren = Boolean(node.children?.length);
