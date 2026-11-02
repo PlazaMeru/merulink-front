@@ -1,6 +1,6 @@
 // import { useNavigate } from 'react-router-dom';
 import { useLockerAssigns } from '../../context/LockerAssignContext';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { lockerCategories } from '../../utils/StaticData/locker-room-utils';
 
@@ -25,7 +25,7 @@ function LockerAssignList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCat, setActiveCat] = useState('C');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState('');
+  const categoryName = lockerCategories.find(category => category.key === activeCat)?.value ?? '';
   const isActiveCatD = activeCat === 'D';
   const isActiveCatC = activeCat === 'C';
 
@@ -38,20 +38,13 @@ function LockerAssignList() {
   //   setCurrentPage(1);
   // }, [searchValue, filterStatus]);
 
-  const handleActiveCategoryName = (key) => {
-    const category = lockerCategories.find(te => te.key === key);
-    setCategoryName(category.value);
-  };
-
   // Filtrar
   const filteredLockers = useMemo(() => {
-
-    handleActiveCategoryName(activeCat);
     return lockerAssignData.filter(item => {
       const matchesCategory = item?.locker?.category?.key === activeCat;
       // console.log("Coincide:", matchesCategory, "Item key:, item?.locker?.category?.key);
       return matchesCategory;
-   });
+    }).sort((a, b) => a.locker.code.localeCompare(b.locker.code, undefined, { numeric: true }));
   }, [lockerAssignData, activeCat]);
     
 
