@@ -4,6 +4,7 @@ const AssistantInput = lazy(() => import("./AssistantInput"));
 const DepartmentPage = lazy(() => import("./Department/DepartmentPage"));
 const SubDepartmentPage = lazy(() => import("./SubDepartment/SubDepartmentPage"));
 const PositionPage = lazy(() => import("./Positions/PositionPage"));
+const LocationList = lazy(() => import("./Location/LocationList"));
 const RolePage = lazy(() => import("./Role/RolePage"));
 const LockerRoomPage = lazy(() => import("./LockerRoom/LockerRoomPage"));
 const PadlockPage = lazy(() => import("./Padlock/PadlockPage"));
@@ -29,6 +30,7 @@ import { ListStateProvider } from '../context/ListStateContext';
 import { DepartmentProvider } from '../context/DepartmentContext'; 
 import { SubDepartmentProvider } from '../context/SubDepartmentContext'; 
 import { PositionProvider } from '../context/PositionContext'; 
+import { LocationProvider } from '../context/LocationContext';
 import { RoleProvider } from '../context/RoleContext'; 
 import { PadlockPatternProvider } from '../context/PadlockPatternContext'; 
 import { ShiftProvider } from '../context/ShiftContext'; 
@@ -94,6 +96,14 @@ const PositionLayout = () => (
     <PositionProvider>
       <Outlet />
     </PositionProvider>
+  </ListStateProvider>
+);
+
+const LocationLayout = () => (
+  <ListStateProvider>
+    <LocationProvider>
+      <Outlet />
+    </LocationProvider>
   </ListStateProvider>
 );
 
@@ -193,6 +203,10 @@ export default function Workspace() {
             {/* LockerAssign */}
             <Route element={<LockerAssignLayout />}>
               <Route path="/empleados/vestuarios/casilleros/*" element={<div className="main-workspace"><LockerAssignPage/></div> } />
+            </Route>
+
+            <Route element={<LocationLayout />}>
+              <Route path="/eventos/localizaciones/*" element={<div className="main-workspace"><LocationList /></div>} />
             </Route>
 
             {/* Calendario - Eventos */}
