@@ -1,4 +1,4 @@
-import { useDepartments } from '../context/DepartmentContext';
+/*import { useDepartments } from '../context/DepartmentContext';
 import { locations } from '../utils/StaticData/location-utils';
 
 export const useLocationsHook = () => {
@@ -9,4 +9,4 @@ export const useLocationsHook = () => {
     };
 
     return { getLocationById };
-};
+};*/

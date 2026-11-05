@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLocations } from '../../context/LocationContext';
 import { useListState } from '../../context/ListStateContext';
 import useLoadMore from '../../hooks/useLoadMore';
@@ -8,9 +9,11 @@ import FilterByFields from '../Filters/FilterByFields';
 import LoadMorePagination from '../Shared/LoadMorePagination';
 import RowTableLoading from '../Shared/RowTableLoading';
 import TitleHeader from '../Shared/TitleHeader';
+import ButtonNavigate from '../Shared/ButtonNavigate';
 
 export default function LocationList() {
   const { get, set } = useListState();
+  const navigate = useNavigate();
   const { loading, locationData, loadLocations } = useLocations();
   const itemsPerPage = 25;
   const listKey = 'location-list';
@@ -27,7 +30,7 @@ export default function LocationList() {
   }, [loadLocations]);
 
   const filteredLocations = useMemo(
-    () => filterData(locationData, searchValue, ['key', 'label'], '', normalizeText),
+    () => filterData(locationData, searchValue, ['key', 'area', 'floor', 'reference_point'], '', normalizeText),
     [locationData, searchValue]
   );
 
@@ -55,6 +58,7 @@ export default function LocationList() {
     <div className="main-data-cont table-container">
       <div className="titles-table">
         <TitleHeader title="Listado de Ubicaciones" />
+        <ButtonNavigate url={`/eventos/ubicaciones/nuevo`} navigate={navigate}  />
       </div>
 
       <FilterByFields
@@ -75,13 +79,14 @@ export default function LocationList() {
           </thead>
           <tbody>
             {loading ? (
-              <RowTableLoading colSpan={2} />
+              <RowTableLoading colSpan={3} />
             ) : visibleItems.length > 0 ? (
               visibleItems.map((location, index) => (
                 <tr
                   key={location.id}
                   data-chunk={chunkOf(index)}
-                  className={`border-b tr-table ${chunkClass(index)}`}
+                  onClick={() => navigate(`/eventos/ubicaciones/ver/${location.id}`)}
+                  className={`border-b tr-table hover:bg-blue-50 transition-colors duration-150 cursor-pointer ${chunkClass(index)}`}
                 >
                   <td className="px-4 py-3 text-white-800 font-medium">{location.area}</td>
                   <td className="px-4 py-3 text-white-700">{location.floor}</td>

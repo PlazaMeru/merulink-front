@@ -64,7 +64,7 @@ export default function EventRow( {event, isMeruBirthday, eventWithLocation, isE
         )}
 
         {eventWithLocation && (
-          <td className="px-4 py-3 text-white-700">{event.extendedProps?.location?.label}</td>
+          <td className="px-4 py-3 text-white-700">{event.extendedProps?.location?.area}</td>
         )}
         <td className="px-4 py-3 text-white-700">{eventCategoryLabel}</td>
         

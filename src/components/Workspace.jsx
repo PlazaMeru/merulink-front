@@ -4,7 +4,7 @@ const AssistantInput = lazy(() => import("./AssistantInput"));
 const DepartmentPage = lazy(() => import("./Department/DepartmentPage"));
 const SubDepartmentPage = lazy(() => import("./SubDepartment/SubDepartmentPage"));
 const PositionPage = lazy(() => import("./Positions/PositionPage"));
-const LocationList = lazy(() => import("./Location/LocationList"));
+const LocationPage = lazy(() => import("./Location/LocationPage"));
 const RolePage = lazy(() => import("./Role/RolePage"));
 const LockerRoomPage = lazy(() => import("./LockerRoom/LockerRoomPage"));
 const PadlockPage = lazy(() => import("./Padlock/PadlockPage"));
@@ -206,7 +206,7 @@ export default function Workspace() {
             </Route>
 
             <Route element={<LocationLayout />}>
-              <Route path="/eventos/ubicaciones/*" element={<div className="main-workspace"><LocationList /></div>} />
+              <Route path="/eventos/ubicaciones/*" element={<div className="main-workspace"><LocationPage /></div>} />
             </Route>
 
             {/* Calendario - Eventos */}

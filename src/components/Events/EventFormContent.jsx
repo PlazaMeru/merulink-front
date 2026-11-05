@@ -189,7 +189,7 @@ export default function EventFormContent({
               >    
                   <option className="bg-[#3c4042]" value=""> {globalLoading ? "Cargando..." : "Seleccionar..."} </option>
                   {locations.map(location => (
-                    <option key={`location-${location.id}`} className='bg-[#3c4042]' value={location.id}>{location.label}</option>
+                    <option key={`location-${location.id}`} className='bg-[#3c4042]' value={location.id}>{location.area}</option>
                   ))}
               </select>
               {errors?.locationId && <ErrorMessage msg={errors.locationId.message} /> }  

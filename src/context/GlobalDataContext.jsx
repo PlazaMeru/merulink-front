@@ -166,6 +166,21 @@ export const GlobalDataProvider = ({ children }) => {
     });
   };
 
+  const addLocationGlobalState = (location) => {
+    setLocations((currentLocations) => [
+      ...currentLocations.filter((item) => item.id !== location.id),
+      location,
+    ]);
+  };
+
+  const updateLocationGlobalState = (updatedLocation) => {
+    setLocations((currentLocations) =>
+      currentLocations.map((location) =>
+        location.id === updatedLocation.id ? updatedLocation : location
+      )
+    );
+  };
+
   const loadEventCategories = async () => {
     setGlobalLoading(true);
     try {
@@ -222,6 +237,8 @@ export const GlobalDataProvider = ({ children }) => {
     categoryEvents,
     getLocations,
     locations,
+    addLocationGlobalState,
+    updateLocationGlobalState,
     // getEmployeesByDepartment
   };
 
