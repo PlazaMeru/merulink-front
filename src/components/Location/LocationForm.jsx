@@ -18,7 +18,7 @@ import '../../Tables.css';
 const emptyLocation = {
   area: '',
   floor: '',
-  reference_point: '',
+  referencePoint: '',
 };
 
 export default function LocationForm({ mode = 'create' }) {
@@ -71,7 +71,7 @@ export default function LocationForm({ mode = 'create' }) {
           reset({
             area: loadedLocation.area ?? '',
             floor: loadedLocation.floor ?? '',
-            reference_point: loadedLocation.reference_point ?? '',
+            referencePoint: loadedLocation.referencePoint ?? '',
           });
         }
       })
@@ -156,12 +156,12 @@ export default function LocationForm({ mode = 'create' }) {
                   <input
                     type="text"
                     readOnly={viewMode}
-                    {...register('reference_point')}
+                    {...register('referencePoint')}
                     placeholder="Ingrese un punto de referencia (opcional)"
                     className={`input-dark ${viewMode ? 'cursor-not-allowed opacity-50' : ''}`}
                   />
-                  {errors.reference_point && (
-                    <ErrorMessage msg={errors.reference_point.message} />
+                  {errors.referencePoint && (
+                    <ErrorMessage msg={errors.referencePoint.message} />
                   )}
                 </div>
 

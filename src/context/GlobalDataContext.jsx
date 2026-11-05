@@ -181,6 +181,12 @@ export const GlobalDataProvider = ({ children }) => {
     );
   };
 
+  const removeLocationGlobalState = (locationId) => {
+    setLocations((currentLocations) =>
+      currentLocations.filter((location) => location.id !== locationId)
+    );
+  };
+
   const loadEventCategories = async () => {
     setGlobalLoading(true);
     try {
@@ -239,6 +245,7 @@ export const GlobalDataProvider = ({ children }) => {
     locations,
     addLocationGlobalState,
     updateLocationGlobalState,
+    removeLocationGlobalState,
     // getEmployeesByDepartment
   };
 

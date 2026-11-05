@@ -9,7 +9,7 @@ export const locationValidationSchema = yup.object({
     .string()
     .required('El Nivel / Planta es obligatorio.')
     .max(50, 'El Nivel / Planta no debe superar los 50 caracteres.'),
-  reference_point: yup
+  referencePoint: yup
     .string()
     .nullable()
     .max(255, 'El Punto de referencia no debe superar los 255 caracteres.'),

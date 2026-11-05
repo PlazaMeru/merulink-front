@@ -10,6 +10,7 @@ import LoadMorePagination from '../Shared/LoadMorePagination';
 import RowTableLoading from '../Shared/RowTableLoading';
 import TitleHeader from '../Shared/TitleHeader';
 import ButtonNavigate from '../Shared/ButtonNavigate';
+import LocationRow from './LocationRow';
 
 export default function LocationList() {
   const { get, set } = useListState();
@@ -30,7 +31,7 @@ export default function LocationList() {
   }, [loadLocations]);
 
   const filteredLocations = useMemo(
-    () => filterData(locationData, searchValue, ['key', 'area', 'floor', 'reference_point'], '', normalizeText),
+    () => filterData(locationData, searchValue, ['key', 'area', 'floor', 'referencePoint'], '', normalizeText),
     [locationData, searchValue]
   );
 
@@ -75,27 +76,24 @@ export default function LocationList() {
               <th className="px-4 py-3 text-left font-semibold">Zona / Área</th>
               <th className="px-4 py-3 text-left font-semibold">Nivel / Planta</th>
               <th className="px-4 py-3 text-left font-semibold">Punto de Referencia</th>
+              <th className="px-4 py-3 text-left font-semibold">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <RowTableLoading colSpan={3} />
+              <RowTableLoading colSpan={4} />
             ) : visibleItems.length > 0 ? (
               visibleItems.map((location, index) => (
-                <tr
+                <LocationRow
                   key={location.id}
-                  data-chunk={chunkOf(index)}
-                  onClick={() => navigate(`/eventos/ubicaciones/ver/${location.id}`)}
-                  className={`border-b tr-table hover:bg-blue-50 transition-colors duration-150 cursor-pointer ${chunkClass(index)}`}
-                >
-                  <td className="px-4 py-3 text-white-800 font-medium">{location.area}</td>
-                  <td className="px-4 py-3 text-white-700">{location.floor}</td>
-                  <td className="px-4 py-3 text-white-700">{location.reference_point}</td>
-                </tr>
+                  location={location}
+                  chunk={chunkOf(index)}
+                  rowClassName={chunkClass(index)}
+                />
               ))
             ) : (
               <tr>
-                <td colSpan={3} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={4} className="px-4 py-6 text-center text-gray-400">
                   No se encontraron ubicaciones.
                 </td>
               </tr>

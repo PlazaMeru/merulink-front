@@ -13,7 +13,7 @@ export const getEventCategories = async () => {
 
 export const getEventLocations = async () => {
   const response = await axios.get(`${ENV.API_BACK_URL}locations`);
-  return await response.data.data;
+  return response.data.data;
 };
 
 export const getLocationById = async (id) => {
