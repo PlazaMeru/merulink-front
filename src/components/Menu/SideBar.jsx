@@ -7,12 +7,7 @@ import { findMenuContextByPath } from "../../utils/menu-utils";
 import { buildAllPaths } from "../../utils/sidebar-menu-utils";
 
 import HasPermission from "../Shared/HasPermission";
-
-// El menú viene del backend como JSON; el ícono llega como SVG (string).
-function renderMenuIcon(icon) {
-  if (!icon) return null;
-  return <span className="menu-icon" dangerouslySetInnerHTML={{ __html: icon }} />;
-}
+import MenuItemIcon from "./MenuItemIcon";
 
 function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, collapsed) {
   return (nodes || []).map((node) => {
@@ -20,6 +15,7 @@ function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, c
     const currentPath = [...path, node.id];
     const isActive = JSON.stringify(activePath) === JSON.stringify(currentPath);
     const isCollapsed = collapsed[JSON.stringify(currentPath)] !== false;
+    const highlightClass = node.highlight ? 'menu-item-highlight' : '';
 
     return (
       <div key={node.id} style={{ marginBottom: 6 }}>
@@ -32,15 +28,15 @@ function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, c
 
               <button
                 onClick={() => toggleCollapse(JSON.stringify(currentPath))}
-                className={`submenu-btn ${isActive ? 'active' : ''}`}
+                className={`submenu-btn ${isActive ? 'active' : ''} ${highlightClass}`}
                 style={{
                   textAlign: 'left',
-                  background: 'transparent',
                   paddingLeft: 8,
-                  color: isActive ? '#fff' : 'inherit',
-                  fontWeight: isActive ? 'bold' : 'normal'
+                  color: (isActive || node.highlight) ? '#fff' : 'inherit',
+                  fontWeight: (isActive || node.highlight) ? 'bold' : 'normal'
                 }}
               >
+                <MenuItemIcon icon={node.icon} />
                 {node.label || node.id}
               </button>
             </>
@@ -50,13 +46,14 @@ function renderNode(nodes, path = [], onItemClick, activePath, toggleCollapse, c
               <NavLink
                 to={node.path || '#'}
                 onClick={(e) => onItemClick?.(e, node)}
-                className={({ isActive: navActive }) => `submenu-btn ${navActive ? 'active' : ''}`}
+                className={({ isActive: navActive }) => `submenu-btn ${navActive ? 'active' : ''} ${highlightClass}`}
                 style={({ isActive: navActive }) => ({
-                  color: (isActive || navActive) ? "#fff" : "inherit",
-                  fontWeight: (isActive || navActive) ? "bold" : "normal",
+                  color: (isActive || navActive || node.highlight) ? "#fff" : "inherit",
+                  fontWeight: (isActive || navActive || node.highlight) ? "bold" : "normal",
                   paddingLeft: 8
                 })}
               >
+                <MenuItemIcon icon={node.icon} />
                 {node.label || node.id}
               </NavLink>
             </>

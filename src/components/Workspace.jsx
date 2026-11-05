@@ -206,7 +206,7 @@ export default function Workspace() {
             </Route>
 
             <Route element={<LocationLayout />}>
-              <Route path="/eventos/localizaciones/*" element={<div className="main-workspace"><LocationList /></div>} />
+              <Route path="/eventos/ubicaciones/*" element={<div className="main-workspace"><LocationList /></div>} />
             </Route>
 
             {/* Calendario - Eventos */}

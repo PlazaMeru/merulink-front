@@ -206,6 +206,14 @@ footer {
 .submenu-btn{flex: 1;display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:8px;border-radius:10px;background:transparent;color:var(--text-primary);border:none;cursor:pointer;font-weight:600}
 .submenu-btn:hover{background:rgba(255,255,255,0.02)}
 .submenu-btn.active, .check-active{background:rgba(83,196,255,0.12);color:#fff}
+.submenu-btn.menu-item-highlight{display:flex;align-items:center;gap:10px;border:1px solid #9fd8ff;background:rgba(26,26,26,0.72);color:#fff;font-weight:700}
+.submenu-btn.menu-item-highlight:hover{background:rgba(83,196,255,0.1);border-color:#c5edff}
+.submenu-btn.menu-item-highlight.active{background:rgba(83,196,255,0.14)}
+.top-menu button.menu-item-highlight{display:inline-flex;align-items:center;gap:8px;border:1px solid #9fd8ff;background:rgba(26,26,26,0.72);color:#fff;font-weight:700}
+.top-menu button.menu-item-highlight:hover{background:rgba(83,196,255,0.1);border-color:#c5edff;color:#fff}
+.top-menu button.menu-item-highlight.active{background:rgba(83,196,255,0.14)}
+.menu-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;color:#9fd8ff}
+.menu-icon svg{display:block;width:20px;height:20px}
 
 .workspace{
   flex:1;

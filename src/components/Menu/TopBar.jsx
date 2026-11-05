@@ -8,6 +8,7 @@ import { findMenuContextByPath } from '../../utils/menu-utils';
 import { BellIcon } from '@heroicons/react/24/solid';
 import NotificationPanel from "../Shared/NotificationPanel";
 import NameApp from "../Shared/NameApp";
+import MenuItemIcon from "./MenuItemIcon";
 
 export default function TopBar({ onRefreshView }) {
 
@@ -58,8 +59,9 @@ export default function TopBar({ onRefreshView }) {
             <button
               key={item.id}
               onClick={() => handleMenuClick(item)}
-              className={activeMenu === item.id ? 'active' : ''}
+              className={`${activeMenu === item.id ? 'active' : ''} ${item.highlight ? 'menu-item-highlight' : ''}`}
             >
+              <MenuItemIcon icon={item.icon} />
               {item.label}
             </button>
           ))}

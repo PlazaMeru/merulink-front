@@ -68,8 +68,9 @@ export default function LocationList() {
         <table className="min-w-full border-collapse text-sm sm:text-base">
           <thead>
             <tr className="tr-thead-table">
-              <th className="px-4 py-3 text-left font-semibold">Clave</th>
-              <th className="px-4 py-3 text-left font-semibold">Ubicación</th>
+              <th className="px-4 py-3 text-left font-semibold">Zona / Área</th>
+              <th className="px-4 py-3 text-left font-semibold">Nivel / Planta</th>
+              <th className="px-4 py-3 text-left font-semibold">Punto de Referencia</th>
             </tr>
           </thead>
           <tbody>
@@ -82,13 +83,14 @@ export default function LocationList() {
                   data-chunk={chunkOf(index)}
                   className={`border-b tr-table ${chunkClass(index)}`}
                 >
-                  <td className="px-4 py-3 text-white-800 font-medium">{location.key}</td>
-                  <td className="px-4 py-3 text-white-700">{location.label}</td>
+                  <td className="px-4 py-3 text-white-800 font-medium">{location.area}</td>
+                  <td className="px-4 py-3 text-white-700">{location.floor}</td>
+                  <td className="px-4 py-3 text-white-700">{location.reference_point}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={2} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={3} className="px-4 py-6 text-center text-gray-400">
                   No se encontraron ubicaciones.
                 </td>
               </tr>
