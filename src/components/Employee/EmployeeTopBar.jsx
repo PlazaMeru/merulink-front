@@ -8,6 +8,7 @@ import { getStatusColor, getStatusName } from '../../utils/status-utils';
 
 import ChangeStatusModal from './modals/ChangeStatusModal';
 import AbsenceModal from './modals/AbsenceModal';
+import EmployeeStatusDetailsModal from './modals/EmployeeStatusDetailsModal';
 import useChangeStatusModal from '../../hooks/useChangeStatusModal';
 import HasPermission from '../Shared/HasPermission';
 
@@ -22,7 +23,7 @@ function EmployeeTopBar({ createMode, editMode, viewMode, setShowScraperModal, s
     <div className="w-full md:w-auto flex flex-wrap justify-center md:justify-end items-center gap-3 mt-3 md:mt-0 border-b border-[#ffffff21] pb-3">
       {createMode && (
         <Link
-          onClick={ (e) => { setShowScraperModal(true); setScraperKey(k => k + 1); }}
+          onClick={() => { setShowScraperModal(true); setScraperKey(k => k + 1); }}
           className="flex items-center gap-1 text-sm text-[#9fd8ff]! hover:text-white! transition-colors font-medium mr-5"
         >
           <Search className="w-4 h-4 text-[#9fd8ff]" /> Traer Datos
@@ -73,17 +74,9 @@ function EmployeeTopBar({ createMode, editMode, viewMode, setShowScraperModal, s
 
             <div className="w-full flex justify-center md:justify-end">
               {!loadingChangeStatus.loading && employee?.status === false ? (
-                <span className="group relative text-xs font-medium text-red-300 bg-red-500/15 border border-red-500/30 rounded-md px-2.5 py-1 text-center whitespace-nowrap">
-                  Razón: {employee?.latestPeriod?.retireReason} desde {dayjs(employee?.latestPeriod?.retireDate).format('DD/MM/YYYY')}
-                  
-                  {employee?.latestPeriod?.retireNote && (
-                    <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 hidden group-hover:block max-w-xs whitespace-normal text-left custom-grid-tooltip-container border border-gray-700 shadow-lg">
-                      <div className="tooltip-title">Detalles</div>
-                      <div className="tooltip-item">- {employee?.latestPeriod?.retireNote}</div>
-                    </div>
-                  )}
-
-                </span>
+                <EmployeeStatusDetailsModal employee={employee}>
+                  <span title="Detalles Estatus">Razón: {employee?.latestPeriod?.retireReason} desde {dayjs(employee?.latestPeriod?.retireDate).format('DD/MM/YYYY')} </span> 
+                </EmployeeStatusDetailsModal>
               ) : (
                 employee?.scheduledDeactivation && (
                   <span className="group relative text-xs font-medium text-yellow-300 bg-yellow-500/15 border border-yellow-500/30 rounded-md px-2.5 py-1 text-center whitespace-nowrap">
