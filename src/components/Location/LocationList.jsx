@@ -66,7 +66,7 @@ export default function LocationList() {
         searchValue={searchValue}
         onSearchChange={setSearchValue}
         moduleName="Ubicaciones"
-        placeholder="Ingrese la clave o nombre de la ubicación"
+        placeholder="Ingrese Zona / Área de la ubicación"
       />
 
       <div className="rounded-lg shadow">

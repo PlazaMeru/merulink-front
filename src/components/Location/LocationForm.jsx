@@ -164,13 +164,6 @@ export default function LocationForm({ mode = 'create' }) {
                     <ErrorMessage msg={errors.referencePoint.message} />
                   )}
                 </div>
-
-                {location && (
-                  <div className="md:col-span-2">
-                    <LabelFieldForm field="Clave generada" />
-                    <p className="text-gray-300">{location.key}</p>
-                  </div>
-                )}
               </div>
 
               <FooterFormButtons
