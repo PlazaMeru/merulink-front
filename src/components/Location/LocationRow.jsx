@@ -16,6 +16,7 @@ export default function LocationRow({ location, rowClassName = '', chunk }) {
   };
 
   return (
+    <>
     <tr
       data-chunk={chunk}
       onClick={() => navigate(`/eventos/ubicaciones/ver/${location.id}`)}
@@ -33,16 +34,21 @@ export default function LocationRow({ location, rowClassName = '', chunk }) {
               disabled={hasEvents}
               dynamicClasses={hasEvents ? 'cursor-not-allowed opacity-50' : ''}
             />
-            <ConfirmDialog
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              onConfirm={handleConfirmDelete}
-              title="Eliminar Ubicación"
-              message={`¿Está seguro que desea eliminar la ubicación "${location.area}"?`}
-            />
           </>
         </HasPermission>
       </td>
     </tr>
+    <tr>
+      <td>
+        <ConfirmDialog
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+          title="Eliminar Ubicación"
+          message={`¿Está seguro que desea eliminar la ubicación "${location.area}"?`}
+        />
+      </td>
+    </tr>
+    </>
   );
 }

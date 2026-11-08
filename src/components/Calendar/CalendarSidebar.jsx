@@ -2,6 +2,7 @@ import React from 'react';
 import { formatDate } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
 import { capitalizeDateString } from '../../utils/date-utils';
+import { getPlainText } from '../../utils/text-utils';
 import SidebarEvent from './SidebarEvent';
 
 export default function CalendarSidebar({ 
@@ -10,6 +11,8 @@ export default function CalendarSidebar({
   onSelectEvent, 
   selectedDateLabel 
 }) {
+  const description = getPlainText(selectedEvent?.extendedProps?.description);
+
   return (
     <div className='demo-app-sidebar'>
       <div className='demo-app-sidebar-section'>
@@ -30,7 +33,7 @@ export default function CalendarSidebar({
         </ul>
       </div>
       <div className='demo-app-sidebar-bottom-section'>
-        <h2>Detalle de evento</h2>
+        <h2 className="font-bold">Detalles de evento:</h2>
         {selectedEvent ? (
           <div className='selected-event'>
             <p>
@@ -81,16 +84,23 @@ export default function CalendarSidebar({
               </p>
             )}
 
-            {selectedEvent.extendedProps?.description && (
+            {description && (
               <p>
-                <strong>Descripción:</strong><br />
-                {selectedEvent.extendedProps.description}
+                <strong>Descripción:</strong>
+                <br />
+                {description}
               </p>
             )}
             {selectedEvent.extendedProps?.category && (
               <p>
                 <strong>Tipo de evento: </strong>
                 {selectedEvent.extendedProps?.category.label}
+              </p>
+            )}
+            {selectedEvent.extendedProps?.location.area && (
+              <p>
+                <strong>Ubicación: </strong>
+                {selectedEvent.extendedProps?.location.area}
               </p>
             )}
           </div>
@@ -101,4 +111,3 @@ export default function CalendarSidebar({
     </div>
   );
 }
-

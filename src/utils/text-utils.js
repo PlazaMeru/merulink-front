@@ -54,3 +54,16 @@ export const ciOption = {
     e.target.setSelectionRange(newCursor, newCursor);
   },
 };
+
+export function getPlainText(html = '') {
+  const formattedHtml = String(html)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|li|h[1-6]|blockquote)>/gi, '\n');
+  const parsedHtml = new DOMParser().parseFromString(formattedHtml, 'text/html');
+
+  return (parsedHtml.body.textContent ?? '')
+    .replace(/\u00a0/g, ' ')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
