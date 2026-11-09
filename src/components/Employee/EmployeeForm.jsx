@@ -164,7 +164,7 @@ export default function EmployeeForm({ mode = 'create' }) {
       personal: [
         'numEmployee', 'firstName', 'secondName', 'lastName', 'secondLastName',
         'birthdate', 'placeOfBirth', 'nationality', 'age', 'sex', 'ci', 'maritalStatus',
-        'bloodType', 'email', 'mobilePhoneCode', 'mobilePhone', 'homePhoneCode', 'homePhone', 'address'
+        'bloodType', 'email', 'mobilePhoneCode', 'mobilePhone', 'homePhoneCode', 'homePhone', 'address', 'cityAddress'
       ],
       work: ['joinDate', 'department', 'subDepartment', 'position'],
       meruLink: ['userName', 'userPass', 'roleId'],
@@ -224,6 +224,7 @@ export default function EmployeeForm({ mode = 'create' }) {
       homePhoneCode: homeCode ?? '0286',
       homePhone: homeNumber ?? null,
       address: employee?.address ?? '',
+      cityAddress: employee?.cityAddress ?? '',
       joinDate: joinDate ?? null,
       department: employee?.department?.id ?? '',
       subDepartment: employee?.subDepartment?.id ?? 0,

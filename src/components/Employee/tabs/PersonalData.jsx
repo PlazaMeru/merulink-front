@@ -158,10 +158,22 @@ export default function PersonalData({ createMode, viewMode, isEmployeeActive, e
           {errors?.email && <ErrorMessage msg={errors.email.message} />}
         </div>
 
-        <div className="md:col-span-2 lg:col-span-3 w-full">
+        <div className="md:col-span-1 lg:col-span-2">
           <LabelFieldForm field="Dirección" />
            <input readOnly={viewMode} {...register('address')} className={`w-full px-3 py-2 rounded-lg filter-input ${disabledClasses}`} />
           {errors?.address && <ErrorMessage msg={errors.address.message} />}
+        </div>
+        <div>
+          <LabelFieldForm field="Ciudad" />
+           <select 
+            disabled= {viewMode}
+            {...register('cityAddress')} 
+            className={`w-full px-3 py-2 rounded-lg filter-input text-gray-300 ${disabledClasses}`}>
+              <option className='bg-[#3c4042]' value="">Seleccionar...</option> 
+              <option className='bg-[#3c4042]' value="puerto_ordaz">Puerto Ordaz</option>
+              <option className='bg-[#3c4042]' value="san_felix">San Felix</option>
+            </select>
+          {errors?.cityAddress && <ErrorMessage msg={errors.cityAddress.message} />}
         </div>
 
         <div className='flex flex-row'>

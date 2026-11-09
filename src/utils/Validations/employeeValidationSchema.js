@@ -98,6 +98,7 @@ export const employeeValidationSchema = (options = {}) => {
       .optional(),
       
     address: yup.string(),
+    cityAddress: yup.string(),
     joinDate: yup.string().required('Fecha de ingreso es requerida'),
     department: yup.string().required('Departamento es requerido'),
     subDepartment: yup.string(),

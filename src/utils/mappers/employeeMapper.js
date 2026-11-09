@@ -18,6 +18,7 @@ export const mapEmployeeToBackend = (formData) => ({
   mobile_phone: formData.mobilePhone ? sanitizePhone(`${formData.mobilePhoneCode}-${formData.mobilePhone}`) : null,
   home_phone: formData?.homePhone ? `${formData.homePhoneCode}${formData.homePhone}` : null,
   address: formData.address,
+  city_address: formData.cityAddress,
   hire_date: formData.joinDate,
   department_id: formData.department,
   subdepartment_id: formData.subDepartment,
