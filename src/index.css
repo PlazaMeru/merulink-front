@@ -494,3 +494,9 @@ footer {
   background: linear-gradient(135deg, rgba(83, 196, 255, 0.16), rgba(83, 196, 255, 0.06));
   transform: scale(1.02);
 }
+
+.link-invite-mode {
+  font-size: 12px;
+  color: #7a7b7c;
+  margin-top: -10px;
+}

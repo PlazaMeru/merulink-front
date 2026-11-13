@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '../context/AuthContext.jsx';
 
@@ -15,7 +15,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(loginValidationSchema),
   });
-  const { authLogin, setAuthLoading } = useAuth();
+  const { authLogin } = useAuth();
   const navigate = useNavigate();
   const [apiError, setApiError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -102,7 +102,11 @@ const Login = () => {
             >
               {submitting ? 'Verificando...' : 'Iniciar Sesión'}
             </button>
-
+            <div className="-mt-3 text-center">
+              <Link className="link-invite-mode" to={"/"}>
+                Modo Invitado
+              </Link>
+            </div>
           </form>
         </div>
       </div>
