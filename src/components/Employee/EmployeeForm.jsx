@@ -244,7 +244,7 @@ export default function EmployeeForm({ mode = 'create' }) {
       contacts: employee?.contacts ?? [],
       bankInformation: employee?.bankInformation?.length
         ? employee.bankInformation
-        : [{ id: Date.now(), bankName: '', accountNumber: '', mobilePayNumber: '' }],
+        : [],
       lockerAssingId: employee?.assign?.id ?? '',
       padlockAssignPass: employee?.assign?.locker?.padlock?.pass ?? '',
       padlockAssignSerial: employee?.assign?.locker?.padlock?.serial ?? '',

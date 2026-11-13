@@ -32,7 +32,7 @@ export default function BankInformation({ viewMode }) {
             disabled={viewMode}
             handleAddContact={handleAddBankInformation}
             addContacts={addBankInformation}
-            text="Agregar Dato Bancario"
+            text="Agregar Datos Bancarios"
             dynamicClasses={disabledClasses}
           />
         </div>
