@@ -12,6 +12,7 @@ import { calculateAge } from '../../utils/calculateAge-utils';
 import { newNumEmployee } from '../../utils/Employees/employee-utils';
 import { formatCI } from '../../utils/text-utils';
 import { tabs } from '../../utils/tabs-utils';
+import { mobilePhoneCodes } from '../../utils/StaticData/phoneCodes-utils';
 
 import ActiveTab from "./configs/ActiveTab";
 import TabButtonsManager from './configs/TabButtonsManager';
@@ -199,6 +200,7 @@ export default function EmployeeForm({ mode = 'create' }) {
   };
 
   const employeeReset = () => {
+    const defaultMobileCode = mobilePhoneCodes[0]?.code ?? '0414';
     const fullMobilePhone = employee?.mobilePhone || '';
     const { code: mobileCode, number: mobileNumber } = splitPhone(fullMobilePhone, true);
 
@@ -241,9 +243,23 @@ export default function EmployeeForm({ mode = 'create' }) {
       useHidCard: !!employee?.useHidCard,
       useLocker: !!employee?.useLocker,
       useTransport: !!employee?.useTransport,
-      contacts: employee?.contacts ?? [],
+      contacts: (employee?.contacts ?? []).map((contact) => {
+        const { code, number } = splitPhone(contact.phone, true);
+        return {
+          ...contact,
+          phoneCode: code || defaultMobileCode,
+          phone: number ?? '',
+        };
+      }),
       bankInformation: employee?.bankInformation?.length
-        ? employee.bankInformation
+        ? employee.bankInformation.map((bank) => {
+            const { code, number } = splitPhone(bank.mobilePayNumber, true);
+            return {
+              ...bank,
+              mobilePayCode: code || defaultMobileCode,
+              mobilePayNumber: number ?? '',
+            };
+          })
         : [],
       lockerAssingId: employee?.assign?.id ?? '',
       padlockAssignPass: employee?.assign?.locker?.padlock?.pass ?? '',

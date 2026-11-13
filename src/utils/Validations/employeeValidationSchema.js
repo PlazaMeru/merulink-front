@@ -196,10 +196,12 @@ export const employeeValidationSchema = (options = {}) => {
           
         relationship: yup.string().required('Parentesco es requerido'),
         
+        phoneCode: yup.string().required('Código telefónico es requerido'),
+
         phone: yup
           .string()
           .required('Teléfono es requerido')
-          .matches(/^[0-9-]+$/, 'Solo se permiten números.'),
+          .matches(/^[0-9]{3}-[0-9]{4}$/, 'Formato inválido. Debe ser 000-0000'),
           
         address: yup.string().required('Dirección es requerida'),
       })
@@ -225,8 +227,17 @@ export const employeeValidationSchema = (options = {}) => {
           .string()
           .nullable()
           .optional()
-          .matches(/^[0-9-]*$/, 'Solo se permiten números.')
-          .max(12, 'Máximo 12 caracteres'),
+          .test(
+            'mobile-pay-number-format',
+            'Formato inválido. Debe ser 000-0000',
+            (number) => !number || /^[0-9]{3}-[0-9]{4}$/.test(number)
+          ),
+
+        mobilePayCode: yup.string().when('mobilePayNumber', {
+          is: (number) => !!number,
+          then: (schema) => schema.required('Código telefónico es requerido'),
+          otherwise: (schema) => schema.notRequired(),
+        }),
       })
     ),
   });

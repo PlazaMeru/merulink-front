@@ -38,13 +38,15 @@ export const mapEmployeeToBackend = (formData) => ({
     name: contact.name,
     last_name: contact.lastName,
     relationship: contact.relationship,
-    phone: contact.phone,
+    phone: contact.phone ? sanitizePhone(`${contact.phoneCode}${contact.phone}`) : null,
     address: contact.address,
   })),
   bank_information: formData.bankInformation?.map(bank => ({
     bank_name: bank.bankName,
     account_number: bank.accountNumber,
-    mobile_pay_number: bank.mobilePayNumber || null,
+    mobile_pay_number: bank.mobilePayNumber
+      ? sanitizePhone(`${bank.mobilePayCode}${bank.mobilePayNumber}`)
+      : null,
   })),
   assign_id: formData?.lockerAssingId ?? null
 });

@@ -2,11 +2,13 @@ import { useFormContext, useFieldArray } from 'react-hook-form';
 import { getDisabledClasses } from '../../../utils/global-utils';  
 import ButtonAddContact from '../../Shared/ButtonAddContact';
 import ButtonTrash from '../../Shared/ButtonTrash';
+import PhoneNumberEventContact from '../../Shared/PhoneNumberEventContact';
 import { allBanks } from '../../../utils/StaticData/bank-information-utils';
+import { mobilePhoneCodes } from '../../../utils/StaticData/phoneCodes-utils';
 
 export default function BankInformation({ viewMode }) {
 
-  const { register, control, formState: { errors } } = useFormContext();
+  const { register, control, setValue, formState: { errors } } = useFormContext();
   const { fields = [], append, remove } = useFieldArray({ control, name: 'bankInformation' });
 
   const disabledClasses = getDisabledClasses(viewMode);
@@ -19,6 +21,7 @@ export default function BankInformation({ viewMode }) {
         id: Date.now(),
         bankName: '',
         accountNumber: '',
+        mobilePayCode: mobilePhoneCodes[0]?.code ?? '0414',
         mobilePayNumber: ''
       });
     }
@@ -90,12 +93,16 @@ export default function BankInformation({ viewMode }) {
                       )}
                     </td>
                     <td className="p-2">
-                      <input
-                        readOnly={viewMode}
-                        {...register(`bankInformation.${index}.mobilePayNumber`)}
-                        placeholder="0414-1234567"
-                        maxLength={12}
-                        className={`input-dark text-sm ${disabledClasses}`}
+                      <PhoneNumberEventContact
+                        type="mobilePhone"
+                        codeNumberName={`bankInformation.${index}.mobilePayCode`}
+                        numberName={`bankInformation.${index}.mobilePayNumber`}
+                        disabled={viewMode}
+                        register={register}
+                        control={control}
+                        dynamicClasses={disabledClasses}
+                        arrayCodes={mobilePhoneCodes}
+                        setValue={setValue}
                       />
                       {errors?.bankInformation?.[index]?.mobilePayNumber && (
                         <p className="text-red-400 text-xs mt-1">{errors.bankInformation[index].mobilePayNumber.message}</p>

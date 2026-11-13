@@ -2,10 +2,12 @@ import { useFormContext, useFieldArray } from 'react-hook-form';
 import { getDisabledClasses } from '../../../utils/global-utils';  
 import ButtonAddContact from '../../Shared/ButtonAddContact';
 import ButtonTrash from '../../Shared/ButtonTrash';
+import PhoneNumberEventContact from '../../Shared/PhoneNumberEventContact';
+import { mobilePhoneCodes } from '../../../utils/StaticData/phoneCodes-utils';
 
 export default function ContactData({ viewMode }) {
 
-  const { register, control, formState: { errors } } = useFormContext();
+  const { register, control, setValue, formState: { errors } } = useFormContext();
   const { fields = [], append, remove } = useFieldArray({ control, name: 'contacts' });
 
   const disabledClasses = getDisabledClasses(viewMode);
@@ -19,6 +21,7 @@ export default function ContactData({ viewMode }) {
         name: '',
         lastName: '',
         relationship: '',
+        phoneCode: mobilePhoneCodes[0]?.code ?? '0414',
         phone: '',
         address: ''
       });
@@ -86,11 +89,16 @@ export default function ContactData({ viewMode }) {
                       )}
                     </td>
                     <td className="p-2">
-                      <input
-                        readOnly={viewMode}
-                        {...register(`contacts.${index}.phone`)}
-                        placeholder="0414-1234567"
-                        className={`w-full px-2 py-1 rounded filter-input text-sm ${disabledClasses}`}
+                      <PhoneNumberEventContact
+                        type="mobilePhone"
+                        codeNumberName={`contacts.${index}.phoneCode`}
+                        numberName={`contacts.${index}.phone`}
+                        disabled={viewMode}
+                        register={register}
+                        control={control}
+                        dynamicClasses={disabledClasses}
+                        arrayCodes={mobilePhoneCodes}
+                        setValue={setValue}
                       />
                       {errors?.contacts?.[index]?.phone && (
                         <p className="text-red-400 text-xs mt-1">{errors.contacts[index].phone.message}</p>
