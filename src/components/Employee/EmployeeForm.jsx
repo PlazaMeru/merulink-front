@@ -167,8 +167,9 @@ export default function EmployeeForm({ mode = 'create' }) {
         'bloodType', 'email', 'mobilePhoneCode', 'mobilePhone', 'homePhoneCode', 'homePhone', 'address', 'cityAddress'
       ],
       work: ['joinDate', 'department', 'subDepartment', 'position'],
-      meruLink: ['userName', 'userPass', 'roleId'],
+      meruLink: ['userName', 'userPass', 'roleId', 'departmentCollectedIds'],
       contact: ['contacts'],
+      bankInformation: ['bankInformation'],
       lockerAssign: ['lockerAssingId'],
     };
 
@@ -176,8 +177,8 @@ export default function EmployeeForm({ mode = 'create' }) {
     const hasAnyError = (errs, keys) => {
       if (!errs) return false;
       for (const k of keys) {
-        if (k === 'contacts') {
-          if (errs.contacts) return true;
+        if (k === 'contacts' || k === 'bankInformation') {
+          if (errs[k]) return true;
           continue;
         }
         if (Object.prototype.hasOwnProperty.call(errs, k)) return true;
@@ -241,6 +242,9 @@ export default function EmployeeForm({ mode = 'create' }) {
       useLocker: !!employee?.useLocker,
       useTransport: !!employee?.useTransport,
       contacts: employee?.contacts ?? [],
+      bankInformation: employee?.bankInformation?.length
+        ? employee.bankInformation
+        : [{ id: Date.now(), bankName: '', accountNumber: '', mobilePayNumber: '' }],
       lockerAssingId: employee?.assign?.id ?? '',
       padlockAssignPass: employee?.assign?.locker?.padlock?.pass ?? '',
       padlockAssignSerial: employee?.assign?.locker?.padlock?.serial ?? '',

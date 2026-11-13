@@ -151,6 +151,16 @@ export const employeeValidationSchema = (options = {}) => {
           schema.notRequired().nullable()
         
       }),
+    departmentCollectedIds: yup
+      .array()
+      .when('useMeruLink', {
+        is: true,
+        then: (schema) =>
+          schema
+            .required('Debe seleccionar al menos un departamento para MeruLink')
+            .min(1, 'Debe seleccionar al menos un departamento para MeruLink'),
+        otherwise: (schema) => schema.notRequired(),
+      }),
     status: yup.boolean(),
     useMeruLink: yup.boolean(),
     useHidCard: yup.boolean(),
@@ -192,6 +202,31 @@ export const employeeValidationSchema = (options = {}) => {
           .matches(/^[0-9-]+$/, 'Solo se permiten números.'),
           
         address: yup.string().required('Dirección es requerida'),
+      })
+    ),
+
+    // Validación de datos bancarios
+    bankInformation: yup.array().of(
+      yup.object().shape({
+        id: yup.number(),
+
+        bankName: yup
+          .string()
+          .required('Nombre del banco es requerido')
+          .max(50, 'Máximo 50 caracteres'),
+
+        accountNumber: yup
+          .string()
+          .required('Número de cuenta es requerido')
+          .matches(/^[0-9]+$/, 'Solo se permiten números.')
+          .max(20, 'Máximo 20 dígitos'),
+
+        mobilePayNumber: yup
+          .string()
+          .nullable()
+          .optional()
+          .matches(/^[0-9-]*$/, 'Solo se permiten números.')
+          .max(12, 'Máximo 12 caracteres'),
       })
     ),
   });

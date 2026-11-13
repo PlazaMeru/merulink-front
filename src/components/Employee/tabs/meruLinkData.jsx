@@ -273,7 +273,7 @@ export default function MeruLinkData({ viewMode, isEmployeeActive, disabledClass
                 {/* Departamentos */}
                 <div className='w-full mt-2.5'>
                   <h2 className='text-center p-2.5 text-xl font-bold'> Departamentos </h2>
-                  {errors.departmentCollectedIds && <ErrorMessage msg={errors.departmentCollectedIds.message} />}
+                  {errors.departmentCollectedIds && <ErrorMessage msg={errors.departmentCollectedIds.message} dynamicClasses="mb-3" />}
 
                   <div className="bg-[#ffffff21] rounded-xl p-4">
                     {departments.length === 0 ? (

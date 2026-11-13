@@ -1,6 +1,7 @@
 import PersonalData from '../tabs/PersonalData';
 import WorkData from '../tabs/WorkData';
 import ContactData from '../tabs/ContactData';
+import BankInformation from '../tabs/BankInformation';
 import MeruLinkData from '../tabs/meruLinkData';
 import HidCard from '../tabs/HidCard';
 import LockerAssign from '../tabs/LockerAssign';
@@ -46,6 +47,9 @@ export default function ActiveTab({
 
     case 'contact':
       return <ContactData viewMode={viewMode} />;
+
+    case 'bankInformation':
+      return <BankInformation viewMode={viewMode} />;
 
     case 'meruLink':
       return (

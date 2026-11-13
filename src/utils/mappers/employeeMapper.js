@@ -41,5 +41,10 @@ export const mapEmployeeToBackend = (formData) => ({
     phone: contact.phone,
     address: contact.address,
   })),
+  bank_information: formData.bankInformation?.map(bank => ({
+    bank_name: bank.bankName,
+    account_number: bank.accountNumber,
+    mobile_pay_number: bank.mobilePayNumber || null,
+  })),
   assign_id: formData?.lockerAssingId ?? null
 });

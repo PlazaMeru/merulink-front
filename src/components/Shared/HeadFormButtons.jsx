@@ -18,7 +18,7 @@ function HeadFormButtons({ onBack, url = '', data = null, setIsEditing, disabled
   };
 
   return (
-    <div className="buttons-bar flex gap-2 items-center justify-end">
+    <div className="buttons-bar flex gap-2 items-center justify-end mb-2">
       <button
         disabled={disabled} 
         type="button"

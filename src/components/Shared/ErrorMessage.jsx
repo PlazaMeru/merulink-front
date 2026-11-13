@@ -1,6 +1,6 @@
-function ErrorMessage({msg}) {
+function ErrorMessage({msg, dynamicClasses}) {
   return (
-    <p className="text-red-400 text-xs mt-1">{msg}</p>
+    <p className={`text-red-400 text-xs mt-1 ${dynamicClasses}`}>{msg}</p>
   );
 }
 
