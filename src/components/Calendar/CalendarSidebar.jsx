@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDate } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
 import { capitalizeDateString } from '../../utils/date-utils';
@@ -97,10 +96,10 @@ export default function CalendarSidebar({
                 {selectedEvent.extendedProps?.category.label}
               </p>
             )}
-            {selectedEvent.extendedProps?.location.area && (
+            {selectedEvent.extendedProps?.location?.area && (
               <p>
                 <strong>Ubicación: </strong>
-                {selectedEvent.extendedProps?.location.area}
+                {selectedEvent.extendedProps.location.area}
               </p>
             )}
           </div>
